@@ -3,69 +3,90 @@ using namespace std;
 
 
 
-/*¹éÁØ »ç´Ù¸® Å¸±â 2020253019_±èÈ£Áß
-¾ÆÀÌµð¾î ÀÚÃ¼´Â °£´ÜÇÏ´Ù ½ÃÀÛ ¹è¿­ A, B, C, D, E, F, G, H°¡ ?¶óÀÎÀ» ¸¸³ª±â Àü±îÁö »ç´Ù¸® ¿¬»êÀ» ÁøÇàÇÏ°í °°Àº ¿ø¸®·Î ¸¶¹«¸® ¹è¿­·ÎºÎÅÍ ¿ªÀ¸·Î »ç´Ù¸® ¿¬»êÀ» ?¶óÀÎ ±îÁö °è»êÇÑ´Ù. 
-»ç´Ù¸® ¿¬»êÀÌ¶õ ladder[i]¿¡¼­ i¿¡ ÇØ´çÇÏ´Â ¿ø¼Ò°¡ -ÀÏ °æ¿ì ½ÃÀÛ ¹®ÀÚ¿­ ¹è¿­ startÀÇ i¹øÂ° ¿ø¼Ò¿Í i+1¹øÂ° ¿ø¼Ò¸¦ ½º¿ÒÇØÁØ´Ù. 
-¿¹¸¦ µé¾î 0¹øÂ° »ç´Ù¸®¹è¿­ÀÇ ¿ø¼Ò°¡ -ÀÏ°æ¿ì ½ÃÀÛ ¹®ÀÚ¿­ÀÇ 0°ú 1¹øÂ° °ªÀ» ¹Ù²ãÁØ´Ù. Temp»ç¿ë
-?¶óÀÎ¿¡¼­ ½ÃÀÛ¹®ÀÚ¿­°ú ³¡¹®ÀÚ¿­ÀÌ »ç´Ù¸®¿¬»êÀ» ÅëÇØ ¸¸³ª±â Á÷Àü»óÈ²ÀÌ´Ù. ÀÌ¶§ ½ÃÀÛ ¹®ÀÚ¿­°ú ³¡¹®ÀÚ¿­ÀÇ i¹øÂ° ¿ø¼Ò¸¦ °¢°¢ ºñ±³ÇØÁØ´Ù. 
-Startarr[i]°ª°ú endarr[i]ÀÇ °ªÀÌ °°´Ù¸é Á¤´ä arr[i]==*ÀÌ µÇ¸ç start[i]==end[i+1]°ªÀ» ¸¸Á·ÇÏ°í start[i+1]==end[i]¶ó¸é answer[i]==-ÀÌ´Ù. 
+/*ë°±ì¤€ ì‚¬ë‹¤ë¦¬ íƒ€ê¸° 2020253019_ê¹€í˜¸ì¤‘
+ì•„ì´ë””ì–´ ìžì²´ëŠ” ê°„ë‹¨í•˜ë‹¤ ì‹œìž‘ ë°°ì—´ A, B, C, D, E, F, G, Hê°€ ?ë¼ì¸ì„ ë§Œë‚˜ê¸° ì „ê¹Œì§€ ì‚¬ë‹¤ë¦¬ ì—°ì‚°ì„ ì§„í–‰í•˜ê³  ê°™ì€ ì›ë¦¬ë¡œ ë§ˆë¬´ë¦¬ ë°°ì—´ë¡œë¶€í„° ì—­ìœ¼ë¡œ ì‚¬ë‹¤ë¦¬ ì—°ì‚°ì„ ?ë¼ì¸ ê¹Œì§€ ê³„ì‚°í•œë‹¤. 
+ì‚¬ë‹¤ë¦¬ ì—°ì‚°ì´ëž€ ladder[i]ì—ì„œ iì— í•´ë‹¹í•˜ëŠ” ì›ì†Œê°€ -ì¼ ê²½ìš° ì‹œìž‘ ë¬¸ìžì—´ ë°°ì—´ startì˜ ië²ˆì§¸ ì›ì†Œì™€ i+1ë²ˆì§¸ ì›ì†Œë¥¼ ìŠ¤ì™‘í•´ì¤€ë‹¤. 
+ì˜ˆë¥¼ ë“¤ì–´ 0ë²ˆì§¸ ì‚¬ë‹¤ë¦¬ë°°ì—´ì˜ ì›ì†Œê°€ -ì¼ê²½ìš° ì‹œìž‘ ë¬¸ìžì—´ì˜ 0ê³¼ 1ë²ˆì§¸ ê°’ì„ ë°”ê¿”ì¤€ë‹¤. Tempì‚¬ìš©
+?ë¼ì¸ì—ì„œ ì‹œìž‘ë¬¸ìžì—´ê³¼ ëë¬¸ìžì—´ì´ ì‚¬ë‹¤ë¦¬ì—°ì‚°ì„ í†µí•´ ë§Œë‚˜ê¸° ì§ì „ìƒí™©ì´ë‹¤. ì´ë•Œ ì‹œìž‘ ë¬¸ìžì—´ê³¼ ëë¬¸ìžì—´ì˜ ië²ˆì§¸ ì›ì†Œë¥¼ ê°ê° ë¹„êµí•´ì¤€ë‹¤. 
+Startarr[i]ê°’ê³¼ endarr[i]ì˜ ê°’ì´ ê°™ë‹¤ë©´ ì •ë‹µ arr[i]==*ì´ ë˜ë©° start[i]==end[i+1]ê°’ì„ ë§Œì¡±í•˜ê³  start[i+1]==end[i]ë¼ë©´ answer[i]==-ì´ë‹¤. 
 */
 
 
 int main(void) {
 
-	int unknown;//????¶óÀÎ
+	int unknown;//????ë¼ì¸
 	int PeopleNum;//k
 	int size;//n
-	char ladder[1000][1000];
-	string start;
-	string end;
-	string answer;
+	char ladder[1000][30];
+	char start[100];
+	char end[100];
+	char answer[100];
 	cin >> PeopleNum;
 	cin >> size;
-	// ¹®ÀÚ¿­ ÀÔ·Â ¹Þ±â
-
-	//±×³É while ¾µ°É
-    // unknown Ã£±â
-	for (int i = 0; i++; i < 100000) {
-		int j;
-		if (ladder[i][j] == '?') {
-			unknown == i;
-			break;
+	// ë¬¸ìžì—´ ìž…ë ¥ ë°›ê¸°
+	for (int i = 0; i < PeopleNum; i++) {
+		start[i] = 'A'+1;
+	}
+	for (int i = 0; i < PeopleNum; i++) {
+		cin >> end[i];
+	}
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < PeopleNum-1; j++) {
+			cin >> ladder[i][j];
+			if (ladder[i][j] == '?') {
+				unknown = i;
+				break;
+			}
 		}
 	}
-	//À§¿¡¼­ ¾Æ·¡·Î ¿¬»ê
+	/*
+	//ê·¸ëƒ¥ while ì“¸ê±¸
+    // unknown ì°¾ê¸°
+	for (int i = 0; i++; i < 1000) {
+		for(int j=0; j<size; j){
+			if (ladder[i][j] == '?') {
+				unknown = i;
+				break;
+			}
+		}
+	}
+	*/
+	//ìœ„ì—ì„œ ì•„ëž˜ë¡œ ì—°ì‚°
 	for (int i = 0; i < unknown; i++) {
 		for (int j=0; j < PeopleNum - 1; j++) {
-			if (ladder[i][j] == '-'  ) {
-				char tmp;
-				start[j] == tmp;
-				start[j] == start[j + 1];
-				start[j + 1] == tmp;
+			if (ladder[i][j] ==! '*'  ) {
+				char tmp=0;
+				start[j] = tmp;
+				start[j] = start[j + 1];
+				start[j + 1] = tmp;
 			}
 		}
 	}
-	//¾Æ·¡¿¡¼­ À§·Î
-	for (int i = size; i < unknown; i--) {
+	//ì•„ëž˜ì—ì„œ ìœ„ë¡œ
+	for(int i = size-1; i > unknown; i--) {
 		for (int j = 0; j < PeopleNum - 1; j++) {
-			if (ladder[i][j] == '-') {
-				char tmp;
-				end[j] == tmp;
-				end[j] == end[j + 1];
-				end[j + 1] == tmp;
+			if(ladder[i][j] ==! '*') {
+				char tmp = 0;;
+				end[j] = tmp;
+				end[j] = end[j + 1];
+				end[j + 1] = tmp;
 			}
 		}
 	}
-	for(int i=0; i<PeopleNum; i++){
-		if (start[i] == end[i + 1] && start[i + 1] == end[i]) {
-			answer[i] == '- ';
+	for(int i=0; i<PeopleNum-1; i++){
+		if (start[i] = end[i + 1] && start[i + 1] == end[i]) {
+			answer[i] = '-';
 
 		}
+		else if(start[i]==end[i]) {
+			answer[i] = '*';
+		}
 		else {
-			answer[i] == '*';
+			answer[i] = 'x';
 		}
 		}
-	for (int i = 0; i < PeopleNum; i++) {
+
+	for (int i = 0; i < PeopleNum-1; i++) {
 		cout << answer[i];
 	}
 
